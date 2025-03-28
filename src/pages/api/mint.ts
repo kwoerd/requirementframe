@@ -34,7 +34,7 @@ export default async function handler(
 
     if (buttonIndex === 1) {
       // LIKE was clicked
-      nextText = "Thanks for the LIKE! Now you can mint your Satoshe Slugger";
+      nextText = "Thanks for the LIKE! Just Recast and then mint your Satoshe Slugger";
       nextImage = initialImage;
       hasLiked = true;
     } else if (buttonIndex === 2) {
@@ -60,7 +60,7 @@ export default async function handler(
           ` : `
           <meta property="fc:frame:button:1" content="View on OpenSea" />
           <meta property="fc:frame:button:1:action" content="link" />
-          <meta property="fc:frame:button:1:target" content="https://opensea.io/collection/satoshe-slugger-zksync" />
+          <meta property="fc:frame:button:1:target" content="https://opensea.io/assets/zksync-era/0x18f98DeeC72FA4EEa424a1E9F32dfFc83e4E0641/1" />
           `}
         </head>
         <body>
