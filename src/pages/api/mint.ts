@@ -54,15 +54,10 @@ export default async function handler(
           showMintButton = false;
         } catch (error: any) {
           console.error('Minting error:', error);
-          // If the error is related to insufficient funds, show bridge option
-          if (error?.message?.includes('insufficient funds')) {
-            nextText = "You need zkETH to mint. Click below to bridge ETH to zkSync Era";
-            nextImage = initialImage;
-            showMintButton = true;
-          } else {
-            nextText = "Failed to mint. Please try again.";
-            nextImage = initialImage;
-          }
+          // Show gasless minting option
+          nextText = "Mint with any token - Gas fees covered!";
+          nextImage = initialImage;
+          showMintButton = true;
         }
       }
     }
@@ -79,11 +74,11 @@ export default async function handler(
           <meta property="fc:frame:post_url" content="https://requirementframe-git-main-retinal-delights.vercel.app/api/mint" />
           ${showMintButton ? `
           <meta property="fc:frame:button:1" content="${hasLiked ? '❤️' : 'LIKE'}" />
-          <meta property="fc:frame:button:2" content="MINT (0.00777 ETH)" />
-          ${nextText.includes('bridge') ? `
-          <meta property="fc:frame:button:3" content="Bridge to zkSync Era" />
+          <meta property="fc:frame:button:2" content="MINT (Gasless)" />
+          ${nextText.includes('Gas fees covered') ? `
+          <meta property="fc:frame:button:3" content="Mint with Any Token" />
           <meta property="fc:frame:button:3:action" content="link" />
-          <meta property="fc:frame:button:3:target" content="https://bridge.zksync.io/" />
+          <meta property="fc:frame:button:3:target" content="https://thirdweb.com/pay" />
           ` : ''}
           ` : `
           <meta property="fc:frame:button:1" content="View on OpenSea" />
