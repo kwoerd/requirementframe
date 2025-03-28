@@ -20,22 +20,20 @@ export default async function handler(
     console.log('Request body:', req.body);
     console.log('Button index:', req.body?.untrustedData?.buttonIndex);
 
-    // Get the button that was clicked (1 = LIKE, 2 = RECAST, 3 = MINT)
+    // Get the button that was clicked (1 = LIKE, 2 = MINT)
     const buttonIndex = req.body?.untrustedData?.buttonIndex;
 
     let nextImage = "https://coffee-occasional-ermine-151.mypinata.cloud/ipfs/bafkreia3fjjd5t24fllbrruu3dxc6n4pwjcjzg45oyv7jboyhleufrzksy";
     let nextText = "Like and recast to mint NFT";
     let showMintButton = true;
+    let hasLiked = false;
 
     if (buttonIndex === 1) {
       // LIKE was clicked
-      nextText = "Thanks for the LIKE! Just Recast and then mint your Satoshe Slugger";
+      nextText = "Thanks for the LIKE! Now you can mint your Satoshe Slugger";
       nextImage = "https://coffee-occasional-ermine-151.mypinata.cloud/ipfs/bafkreia3fjjd5t24fllbrruu3dxc6n4pwjcjzg45oyv7jboyhleufrzksy";
+      hasLiked = true;
     } else if (buttonIndex === 2) {
-      // RECAST was clicked
-      nextText = "Thanks for the RECAST! Ready to MINT?";
-      nextImage = "https://coffee-occasional-ermine-151.mypinata.cloud/ipfs/bafkreia3fjjd5t24fllbrruu3dxc6n4pwjcjzg45oyv7jboyhleufrzksy";
-    } else if (buttonIndex === 3) {
       // MINT was clicked - Show confirmation with actual NFT image
       nextText = "🎉 Congratulations! Your Satoshe Slugger has been minted! View on OpenSea";
       nextImage = "https://coffee-occasional-ermine-151.mypinata.cloud/ipfs/bafkreiepqz6d3f5oqbhcpqwkrg3k5n5kovvyhfnrqzxvyqfbsln4vqpzdy";
@@ -53,9 +51,8 @@ export default async function handler(
           <meta property="fc:frame:image" content="${nextImage}" />
           <meta property="fc:frame:post_url" content="https://requirementframe-git-main-retinal-delights.vercel.app/api/mint" />
           ${showMintButton ? `
-          <meta property="fc:frame:button:1" content="LIKE" />
-          <meta property="fc:frame:button:2" content="RECAST" />
-          <meta property="fc:frame:button:3" content="MINT (0.00777 ETH)" />
+          <meta property="fc:frame:button:1" content="${hasLiked ? '❤️' : 'LIKE'}" />
+          <meta property="fc:frame:button:2" content="MINT (0.00777 ETH)" />
           ` : `
           <meta property="fc:frame:button:1" content="View on OpenSea" />
           `}
