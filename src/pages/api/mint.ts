@@ -55,7 +55,7 @@ export default async function handler(
         } catch (error: any) {
           console.error('Minting error:', error);
           // Show gasless minting option
-          nextText = "Mint with any token - Gas fees covered!";
+          nextText = "Visit our website to mint with any token (gas fees covered)";
           nextImage = initialImage;
           showMintButton = true;
         }
@@ -75,10 +75,10 @@ export default async function handler(
           ${showMintButton ? `
           <meta property="fc:frame:button:1" content="${hasLiked ? '❤️' : 'LIKE'}" />
           <meta property="fc:frame:button:2" content="MINT (Gasless)" />
-          ${nextText.includes('Gas fees covered') ? `
-          <meta property="fc:frame:button:3" content="Mint with Any Token" />
+          ${nextText.includes('Visit our website') ? `
+          <meta property="fc:frame:button:3" content="Mint on Website" />
           <meta property="fc:frame:button:3:action" content="link" />
-          <meta property="fc:frame:button:3:target" content="https://thirdweb.com/pay" />
+          <meta property="fc:frame:button:3:target" content="https://requirementframe-git-main-retinal-delights.vercel.app" />
           ` : ''}
           ` : `
           <meta property="fc:frame:button:1" content="View on OpenSea" />
