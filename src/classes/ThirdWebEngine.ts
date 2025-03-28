@@ -3,8 +3,12 @@ import { config } from "@/config/config";
 export class ThirdWebEngine {
   public static async mint(receiver: string) {
     try {
+      // Ensure we're using zkSync Era mainnet
+      const chainId = 324; // zkSync Era mainnet
+      const contractAddress = "0x18f98DeeC72FA4EEa424a1E9F32dfFc83e4E0641";
+
       const response = await fetch(
-        `${config.thirdweb.engine.url}/contract/${config.chainId}/${config.contractAddress}/erc721/claim-to`,
+        `${config.thirdweb.engine.url}/contract/${chainId}/${contractAddress}/erc721/claim-to`,
         {
           method: "POST",
           headers: {
@@ -15,11 +19,15 @@ export class ThirdWebEngine {
           body: JSON.stringify({
             receiver: receiver.toLowerCase(),
             quantity: "1",
+            chainId: chainId,
+            network: "zksync-era",
           }),
         }
       );
 
       if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Minting error response:', errorText);
         throw new Error(`Minting failed: ${response.statusText}`);
       }
 
