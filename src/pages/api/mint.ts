@@ -59,6 +59,8 @@ export default async function handler(
           <meta property="fc:frame:button:2" content="MINT (0.00777 ETH)" />
           ` : `
           <meta property="fc:frame:button:1" content="View on OpenSea" />
+          <meta property="fc:frame:button:1:action" content="link" />
+          <meta property="fc:frame:button:1:target" content="https://opensea.io/assets/ethereum/0x18f98DeeC72FA4EEa424a1E9F32dfFc83e4E0641/1" />
           `}
         </head>
         <body>
