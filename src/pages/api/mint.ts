@@ -15,29 +15,54 @@ export default async function handler(
     return res.status(200).end();
   }
 
-  const frameResponse = `
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <title>Like and recast to mint NFT</title>
-        <meta property="og:title" content="Like and recast to mint NFT" />
-        <meta property="og:image" content="https://coffee-occasional-ermine-151.mypinata.cloud/ipfs/bafkreia3fjjd5t24fllbrruu3dxc6n4pwjcjzg45oyv7jboyhleufrzksy" />
-        <meta property="fc:frame" content="vNext" />
-        <meta property="fc:frame:image" content="https://coffee-occasional-ermine-151.mypinata.cloud/ipfs/bafkreia3fjjd5t24fllbrruu3dxc6n4pwjcjzg45oyv7jboyhleufrzksy" />
-        <meta property="fc:frame:post_url" content="https://requirementframe-git-main-retinal-delights.vercel.app/api/mint" />
-        <meta property="fc:frame:button:1" content="LIKE" />
-        <meta property="fc:frame:button:2" content="RECAST" />
-        <meta property="fc:frame:button:3" content="MINT (0.00777 ETH)" />
-      </head>
-      <body>
-        <p>Like and recast to mint NFT</p>
-      </body>
-    </html>
-  `;
-
   try {
+    // Log the request data for debugging
+    console.log('Request body:', req.body);
+    console.log('Button index:', req.body?.untrustedData?.buttonIndex);
+
+    // Get the button that was clicked (1 = LIKE, 2 = RECAST, 3 = MINT)
+    const buttonIndex = req.body?.untrustedData?.buttonIndex;
+
+    let nextImage = "https://coffee-occasional-ermine-151.mypinata.cloud/ipfs/bafkreia3fjjd5t24fllbrruu3dxc6n4pwjcjzg45oyv7jboyhleufrzksy";
+    let nextText = "Like and recast to mint NFT";
+
+    if (buttonIndex === 1) {
+      // LIKE was clicked
+      nextText = "Thanks for the LIKE! Now try RECAST";
+      nextImage = "https://coffee-occasional-ermine-151.mypinata.cloud/ipfs/bafkreia3fjjd5t24fllbrruu3dxc6n4pwjcjzg45oyv7jboyhleufrzksy";
+    } else if (buttonIndex === 2) {
+      // RECAST was clicked
+      nextText = "Thanks for the RECAST! Ready to MINT?";
+      nextImage = "https://coffee-occasional-ermine-151.mypinata.cloud/ipfs/bafkreia3fjjd5t24fllbrruu3dxc6n4pwjcjzg45oyv7jboyhleufrzksy";
+    } else if (buttonIndex === 3) {
+      // MINT was clicked
+      nextText = "Starting mint process... (coming soon)";
+      nextImage = "https://coffee-occasional-ermine-151.mypinata.cloud/ipfs/bafkreia3fjjd5t24fllbrruu3dxc6n4pwjcjzg45oyv7jboyhleufrzksy";
+    }
+
+    const frameResponse = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>${nextText}</title>
+          <meta property="og:title" content="${nextText}" />
+          <meta property="og:image" content="${nextImage}" />
+          <meta property="fc:frame" content="vNext" />
+          <meta property="fc:frame:image" content="${nextImage}" />
+          <meta property="fc:frame:post_url" content="https://requirementframe-git-main-retinal-delights.vercel.app/api/mint" />
+          <meta property="fc:frame:button:1" content="LIKE" />
+          <meta property="fc:frame:button:2" content="RECAST" />
+          <meta property="fc:frame:button:3" content="MINT (0.00777 ETH)" />
+        </head>
+        <body>
+          <p>${nextText}</p>
+        </body>
+      </html>
+    `;
+
     return res.status(200).send(frameResponse);
   } catch (err) {
+    console.error('Error:', err);
     return res.status(500).send({ error: "Something went wrong" });
   }
 } 
