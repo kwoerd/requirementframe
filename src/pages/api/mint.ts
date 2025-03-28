@@ -1,14 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import NextCors from "nextjs-cors";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  await NextCors(req, res, {
-    methods: ["GET", "POST"],
-    origin: "*",
-  });
+  // Handle CORS
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
   if (req.method !== "POST") {
     return res.status(400).send({ error: "invalid method" });
