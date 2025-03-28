@@ -1,4 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { ThirdWebEngine } from "@/classes/ThirdWebEngine";
+import { config } from "@/config/config";
 
 export default async function handler(
   req: NextApiRequest,
@@ -22,6 +24,7 @@ export default async function handler(
 
     // Get the button that was clicked (1 = LIKE, 2 = MINT)
     const buttonIndex = req.body?.untrustedData?.buttonIndex;
+    const walletAddress = req.body?.untrustedData?.address;
 
     // Use ipfs.io gateway for better reliability
     const initialImage = "https://ipfs.io/ipfs/bafkreia3fjjd5t24fllbrruu3dxc6n4pwjcjzg45oyv7jboyhleufrzksy";
@@ -38,10 +41,23 @@ export default async function handler(
       nextImage = initialImage;
       hasLiked = true;
     } else if (buttonIndex === 2) {
-      // MINT was clicked - Show confirmation with actual NFT image
-      nextText = "🎉 Congratulations! Your Satoshe Slugger has been minted! View on OpenSea";
-      nextImage = mintedImage;
-      showMintButton = false; // Hide mint button after successful mint
+      // MINT was clicked
+      if (!walletAddress) {
+        nextText = "Please connect your wallet to mint";
+        nextImage = initialImage;
+      } else {
+        try {
+          // Attempt to mint the NFT
+          await ThirdWebEngine.mint(walletAddress);
+          nextText = "🎉 Congratulations! Your Satoshe Slugger has been minted! View on OpenSea";
+          nextImage = mintedImage;
+          showMintButton = false;
+        } catch (error) {
+          console.error('Minting error:', error);
+          nextText = "Failed to mint. Please try again.";
+          nextImage = initialImage;
+        }
+      }
     }
 
     const frameResponse = `
