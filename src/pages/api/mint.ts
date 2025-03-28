@@ -52,10 +52,17 @@ export default async function handler(
           nextText = "🎉 Congratulations! Your Satoshe Slugger has been minted! View on OpenSea";
           nextImage = mintedImage;
           showMintButton = false;
-        } catch (error) {
+        } catch (error: any) {
           console.error('Minting error:', error);
-          nextText = "Failed to mint. Please try again.";
-          nextImage = initialImage;
+          // If the error is related to insufficient funds, show bridge option
+          if (error?.message?.includes('insufficient funds')) {
+            nextText = "You need zkETH to mint. Click below to bridge ETH to zkSync Era";
+            nextImage = initialImage;
+            showMintButton = true;
+          } else {
+            nextText = "Failed to mint. Please try again.";
+            nextImage = initialImage;
+          }
         }
       }
     }
@@ -73,6 +80,11 @@ export default async function handler(
           ${showMintButton ? `
           <meta property="fc:frame:button:1" content="${hasLiked ? '❤️' : 'LIKE'}" />
           <meta property="fc:frame:button:2" content="MINT (0.00777 ETH)" />
+          ${nextText.includes('bridge') ? `
+          <meta property="fc:frame:button:3" content="Bridge to zkSync Era" />
+          <meta property="fc:frame:button:3:action" content="link" />
+          <meta property="fc:frame:button:3:target" content="https://bridge.zksync.io/" />
+          ` : ''}
           ` : `
           <meta property="fc:frame:button:1" content="View on OpenSea" />
           <meta property="fc:frame:button:1:action" content="link" />
