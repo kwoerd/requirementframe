@@ -28,7 +28,7 @@ export default async function handler(
 
     if (buttonIndex === 1) {
       // LIKE was clicked
-      nextText = "Thanks for the LIKE! Now try RECAST";
+      nextText = "Thanks for the LIKE! Just Recast and then mint your Satoshe Slugger";
       nextImage = "https://coffee-occasional-ermine-151.mypinata.cloud/ipfs/bafkreia3fjjd5t24fllbrruu3dxc6n4pwjcjzg45oyv7jboyhleufrzksy";
     } else if (buttonIndex === 2) {
       // RECAST was clicked
@@ -37,7 +37,7 @@ export default async function handler(
     } else if (buttonIndex === 3) {
       // MINT was clicked
       nextText = "Starting mint process... (coming soon)";
-      nextImage = "https://coffee-occasional-ermine-151.mypinata.cloud/ipfs/bafkreia3fjjd5t24fllbrruu3dxc6n4pwjcjzg45oyv7jboyhleufrzksy";
+      nextImage = "https://coffee-occasional-ermine-151.mypinata.cloud/ipfs/bafkreiepqz6d3f5oqbhcpqwkrg3k5n5kovvyhfnrqzxvyqfbsln4vqpzdy";
     }
 
     const frameResponse = `
