@@ -23,7 +23,11 @@ export default async function handler(
     // Get the button that was clicked (1 = LIKE, 2 = MINT)
     const buttonIndex = req.body?.untrustedData?.buttonIndex;
 
-    let nextImage = "https://coffee-occasional-ermine-151.mypinata.cloud/ipfs/bafkreia3fjjd5t24fllbrruu3dxc6n4pwjcjzg45oyv7jboyhleufrzksy";
+    // Use ipfs.io gateway for better reliability
+    const initialImage = "https://ipfs.io/ipfs/bafkreia3fjjd5t24fllbrruu3dxc6n4pwjcjzg45oyv7jboyhleufrzksy";
+    const mintedImage = "https://ipfs.io/ipfs/bafkreiepqz6d3f5oqbhcpqwkrg3k5n5kovvyhfnrqzxvyqfbsln4vqpzdy";
+    
+    let nextImage = initialImage;
     let nextText = "Like and recast to mint NFT";
     let showMintButton = true;
     let hasLiked = false;
@@ -31,12 +35,12 @@ export default async function handler(
     if (buttonIndex === 1) {
       // LIKE was clicked
       nextText = "Thanks for the LIKE! Now you can mint your Satoshe Slugger";
-      nextImage = "https://coffee-occasional-ermine-151.mypinata.cloud/ipfs/bafkreia3fjjd5t24fllbrruu3dxc6n4pwjcjzg45oyv7jboyhleufrzksy";
+      nextImage = initialImage;
       hasLiked = true;
     } else if (buttonIndex === 2) {
       // MINT was clicked - Show confirmation with actual NFT image
       nextText = "🎉 Congratulations! Your Satoshe Slugger has been minted! View on OpenSea";
-      nextImage = "https://coffee-occasional-ermine-151.mypinata.cloud/ipfs/bafkreiepqz6d3f5oqbhcpqwkrg3k5n5kovvyhfnrqzxvyqfbsln4vqpzdy";
+      nextImage = mintedImage;
       showMintButton = false; // Hide mint button after successful mint
     }
 
